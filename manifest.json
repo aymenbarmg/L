@@ -1,6 +1,6 @@
 {
-  "name": "فريق الأنيق",
-  "short_name": "الأنيق",
+  "name": "لوحه التحكم - إدارة المباريات",
+  "short_name": "لوحه تحكم",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -13,4 +13,5 @@
     }
   ]
 }
+
 
