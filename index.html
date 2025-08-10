@@ -114,6 +114,13 @@
   <link rel="apple-touch-icon" href="88.jpg">
 </head>
 <body>
+<h2>📝 إضافة ملاحظة</h2>
+<form id="noteForm">
+  <label>الملاحظة:</label>
+  <input type="text" id="noteText" required>
+  <button type="submit">إضافة الملاحظة</button>
+  <button type="button" id="deleteNoteBtn" style="background:#dc3545;margin-top:5px;">حذف الملاحظة</button>
+</form>
 
   <h2>➕ إضافة مباراة</h2>
   <form id="matchForm">
@@ -151,7 +158,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+  import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
 
     const firebaseConfig = {
       apiKey: "AIzaSyAkvx2qfs1vP9tpyChZJYsttT2OLFSqolg",
@@ -168,7 +176,37 @@
     const matchesRef = ref(db, "matches");
 
     const ADMIN_PASSWORD = "1998";
+const noteRef = ref(db, "note");
 
+document.getElementById("noteForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const enteredPassword = prompt("🔒 أدخل كلمة المرور لإضافة الملاحظة:");
+  if (enteredPassword !== ADMIN_PASSWORD) {
+    alert("❌ كلمة المرور غير صحيحة");
+    return;
+  }
+  const note = document.getElementById("noteText").value;
+  set(noteRef, note)
+    .then(() => {
+      alert("✅ تم إضافة الملاحظة");
+      document.getElementById("noteForm").reset();
+    })
+    .catch(err => alert("❌ خطأ: " + err.message));
+});
+document.getElementById("deleteNoteBtn").addEventListener("click", () => {
+  const enteredPassword = prompt("🔒 أدخل كلمة المرور لحذف الملاحظة:");
+  if (enteredPassword !== ADMIN_PASSWORD) {
+    alert("❌ كلمة المرور غير صحيحة");
+    return;
+  }
+  set(noteRef, "")
+    .then(() => {
+      alert("🗑️ تم حذف الملاحظة");
+    })
+    .catch(err => alert("❌ خطأ: " + err.message));
+});
+
+  
     document.getElementById("matchForm").addEventListener("submit", (e) => {
       e.preventDefault();
       const enteredPassword = prompt("🔒 أدخل كلمة المرور لإضافة المباراة:");
