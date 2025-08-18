@@ -7,7 +7,7 @@
 
   <!-- أيقونات الشاشة الرئيسية والمتصفح -->
   <link rel="icon" href="12345.jpg" type="image/jpeg" />
-  <link rel="apple-touch-icon" href="565.jpg" />
+  <link rel="apple-touch-icon" href="12345.jpg" />
 
   <!-- ملف manifest -->
   <link rel="manifest" href="manifest.json" />
@@ -18,14 +18,14 @@
   <meta name="mobile-web-app-capable" content="yes" />
 
   <!-- صورة عند مشاركة الرابط -->
-  <meta property="og:image" content="565.jpg" />
+  <meta property="og:image" content="12345.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
 
   <!-- صورة عند المشاركة على تويتر -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="565.jpg" />
+  <meta name="twitter:image" content="12345.jpg" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
@@ -114,6 +114,11 @@
   <link rel="apple-touch-icon" href="88.jpg">
 </head>
 <body>
+  <button onclick="sendTelegramNotification()" 
+        style="margin:15px; padding:10px; background:#0088cc; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+📢 إرسال إشعار للتليكرام
+</button>
+
 <h2>📝 إضافة ملاحظة</h2>
 <form id="noteForm">
   <label>الملاحظة:</label>
@@ -258,6 +263,35 @@ document.getElementById("deleteNoteBtn").addEventListener("click", () => {
       remove(ref(db, "matches/" + key));
     };
   </script>
+  <script>
+  const BOT_TOKEN = "7967625732:AAFAbeqUoK-me8kbzMEGju2kpFRyK_ReTGI";
+  const CHAT_ID = "@aniaqsport"; // القناة العامة
+
+  function sendTelegramNotification() {
+    // 🔹 هنا تقدر تخلي الرسالة ثابتة أو تعدلها
+    const message = "📢 إشعار جديد من تطبيق فريق الأنيق!";
+
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.ok) {
+        alert("✅ تم إرسال الإشعار إلى قناة التليكرام");
+      } else {
+        alert("❌ خطأ: " + data.description);
+      }
+    })
+    .catch(err => alert("⚠️ لم يتم الإرسال: " + err.message));
+  }
+</script>
+
 </body>
 </html>
-
